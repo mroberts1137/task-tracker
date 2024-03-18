@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Time Tracker</title>
+  </head>
+  <body>
+    <h1>Time Tracker</h1>
+    <button id="startBtn">Start</button>
+
+    <div id="dataBox">
+      <table>
+        <tr>
+          <td>Start Time</td>
+          <td>00:00</td>
+        </tr>
+        <tr>
+          <td>End Time</td>
+          <td>00:00</td>
+        </tr>
+        <tr>
+          <td>Elapsed Time</td>
+          <td>00:00</td>
+        </tr>
+        <tr>
+          <td>Total Earnings</td>
+          <td>$0.00</td>
+        </tr>
+      </table>
+    </div>
+
+    <h1>Goals</h1>
+    <form id="goalsForm">
+      <label for="goal">Add a goal:</label>
+      <input id="goal" type="text" name="goal" />
+      <button id="addButton">Add</button>
+    </form>
+    <ul id="goalList"></ul>
+
+    <script src="main.js"></script>
+  </body>
+</html>

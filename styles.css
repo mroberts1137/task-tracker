@@ -1,0 +1,40 @@
+#dataBox {
+  width: 75%;
+  margin: auto;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+#startBtn {
+  width: 20rem;
+  margin-bottom: 2rem;
+  background-color: rgb(52, 99, 227);
+  color: white;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+#clockRunning {
+  background-color: rgb(227, 21, 21);
+  color: white;
+}
+
+ul {
+  list-style-type: '\2610 ';
+  cursor: pointer;
+}
