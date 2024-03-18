@@ -90,3 +90,7 @@ ul {
   height: 50px;
   border: 1px solid gray;
 }
+
+#progressPercent {
+  color: black;
+}

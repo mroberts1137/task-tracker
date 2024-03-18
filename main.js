@@ -200,6 +200,14 @@ function reset() {
 
 function updateProgress() {
   goalProgress = (totalEarnings + earnings) / totalGoalValue;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'green';
   ctx.fillRect(0, 0, parseInt(canvas.width * goalProgress), canvas.height);
+  ctx.font = '25px Arial';
+  ctx.fillStyle = 'black';
+  ctx.fillText(
+    `\%${Math.floor(goalProgress * 1000) / 10}`,
+    canvas.width * 0.5,
+    canvas.height * 0.5
+  );
 }
