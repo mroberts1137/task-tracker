@@ -26,6 +26,9 @@ const earningsEl = document.querySelector('#earnings');
 const rateEl = document.querySelector('#rate');
 rateEl.addEventListener('change', (e) => (rate = e.target.value));
 
+const canvas = document.querySelector('#canvas');
+const ctx = canvas.getContext('2d');
+
 let clockRunning = false;
 
 const goalList = [];
@@ -37,6 +40,7 @@ let endTime = null;
 let elapsedTime = null;
 let earnings = 0;
 let rate = 40;
+let goalProgress = 0;
 
 let updateEarningsInterval = null;
 
@@ -133,6 +137,7 @@ function renderTrackList() {
 }
 
 function toggleClock() {
+  updateProgress();
   if (clockRunning) {
     clockRunning = false;
     startBtnEl.classList.remove('clockRunning');
@@ -176,6 +181,7 @@ function updateElapsedTime() {
 
   elapsedTimeEl.innerText = elapsedTime;
   earningsEl.innerText = earnings;
+  updateProgress();
 }
 
 function reset() {
@@ -190,4 +196,10 @@ function reset() {
   endTimeEl.innerText = '-';
   elapsedTimeEl.innerText = '0';
   earningsEl.innerText = '0';
+}
+
+function updateProgress() {
+  goalProgress = (totalEarnings + earnings) / totalGoalValue;
+  ctx.fillStyle = 'green';
+  ctx.fillRect(0, 0, parseInt(canvas.width * goalProgress), canvas.height);
 }
