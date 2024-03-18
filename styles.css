@@ -1,8 +1,10 @@
 #header {
   display: flex;
-  flex-direction: column;
   margin: auto;
-  height: 7rem;
+  height: 2rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  gap: 40px;
 }
 
 #dataBox,
@@ -19,23 +21,32 @@ table {
 
 td,
 th {
-  border: 1px solid #dddddd;
+  border: 1px solid #afafaf;
   text-align: left;
   padding: 8px;
 }
 
-tr:nth-child(even) {
+tr:nth-child(odd) {
   background-color: #dddddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f1f1f1;
 }
 
 #startBtn {
   width: 20rem;
-  margin-bottom: 2rem;
-  position: absolute;
-  top: 5rem;
-  left: 0;
-  transform: translate(50%);
+  height: 100%;
   background-color: rgb(52, 99, 227);
+  color: white;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+#resetBtn {
+  width: 5rem;
+  height: 100%;
+  background-color: rgb(98, 104, 122);
   color: white;
   border: 1px solid gray;
   border-radius: 4px;
@@ -49,4 +60,23 @@ tr:nth-child(even) {
 ul {
   list-style-type: '\2610 ';
   cursor: pointer;
+}
+
+#outputDiv {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+  width: 100%;
+  gap: 40px;
+  justify-content: center;
+}
+
+.outputBlock {
+  border: 1px gray solid;
+  padding: 10px;
+  width: 45%;
+}
+
+#goalList {
+  margin-top: 10px;
 }

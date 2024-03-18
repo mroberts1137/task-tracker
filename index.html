@@ -7,44 +7,68 @@
     <title>Time Tracker</title>
   </head>
   <body>
-    <div id="header">
-      <h1>Time Tracker</h1>
-    </div>
+    <h1>Time Tracker</h1>
 
-    <button id="startBtn">Start</button>
+    <div id="header">
+      <button id="startBtn">Start</button>
+      <button id="resetBtn">Reset</button>
+    </div>
 
     <div id="dataBox">
       <table>
         <tr>
           <td>Start Time</td>
-          <td><span id="startTime">00:00</span></td>
+          <td><span id="startTime">-</span></td>
         </tr>
         <tr>
           <td>End Time</td>
-          <td><span id="endTime">00:00</span></td>
+          <td><span id="endTime">-</span></td>
         </tr>
         <tr>
-          <td>Elapsed Time</td>
-          <td><span id="elapsedTime">00:00</span></td>
+          <td>Elapsed Time (hrs)</td>
+          <td><span id="elapsedTime">0</span></td>
         </tr>
         <tr>
-          <td>Total Earnings</td>
-          <td><span id="totalEarnings">$0.00</span></td>
+          <td>Earnings</td>
+          <td>$<span id="earnings">0</span></td>
         </tr>
       </table>
     </div>
 
-    <h1>Goals</h1>
-    <h2>Total goals value: <span id="totalGoalValue">$0</span></h2>
-    <form id="goalsForm">
-      <label for="goal">Add a goal:</label>
-      <input id="goal" type="text" name="goal" />
-      <label for="value">Goal value ($):</label>
-      <input id="value" type="text" name="value" />
-      <button id="addButton">Add</button>
-    </form>
+    <div>
+      <h2>Hourly Rate:</h2>
+      <form id="rateForm">
+        <label for="rate">$</label>
+        <input id="rate" type="text" name="rate" />
+      </form>
+    </div>
 
-    <table id="goalList"></table>
+    <div id="outputDiv">
+      <div class="outputBlock">
+        <h2>Total Earnings: $<span id="totalEarnings">0</span></h2>
+        <table id="trackList">
+          <tr>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Elapsed Time (hrs)</th>
+            <th>Earnings</th>
+          </tr>
+        </table>
+      </div>
+
+      <div class="outputBlock">
+        <h1>Goals</h1>
+        <h2>Total goals value: <span id="totalGoalValue">$0</span></h2>
+        <form id="goalsForm">
+          <label for="goal">Add a goal:</label>
+          <input id="goal" type="text" name="goal" />
+          <label for="value">Goal value ($):</label>
+          <input id="value" type="text" name="value" />
+          <button id="addButton">Add</button>
+        </form>
+        <table id="goalList"></table>
+      </div>
+    </div>
 
     <script src="main.js"></script>
   </body>

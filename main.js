@@ -3,6 +3,8 @@ startBtnEl.addEventListener('click', () => {
   toggleClock();
   console.log(startBtnEl.className);
 });
+const restartBtn = document.querySelector('#resetBtn');
+restartBtn.addEventListener('click', reset);
 
 const goalListEl = document.querySelector('#goalList');
 const addButtonEl = document.querySelector('#addButton');
@@ -12,20 +14,28 @@ addButtonEl.addEventListener('click', (e) => {
   console.log(goalList);
 });
 
+const trackListEl = document.querySelector('#trackList');
+const totalEarningsEl = document.querySelector('#totalEarnings');
+
 const totalGoalValueEl = document.querySelector('#totalGoalValue');
 const startTimeEl = document.querySelector('#startTime');
 const endTimeEl = document.querySelector('#endTime');
 const elapsedTimeEl = document.querySelector('#elapsedTime');
-const totalEarningsEl = document.querySelector('#totalEarnings');
+const earningsEl = document.querySelector('#earnings');
+
+const rateEl = document.querySelector('#rate');
+rateEl.addEventListener('change', (e) => (rate = e.target.value));
 
 let clockRunning = false;
 
 const goalList = [];
+const trackList = [];
 let totalGoalValue = 0;
+let totalEarnings = 0;
 let startTime = null;
 let endTime = null;
 let elapsedTime = null;
-let totalEarnings = 0;
+let earnings = 0;
 let rate = 40;
 
 let updateEarningsInterval = null;
@@ -54,8 +64,8 @@ function isValidInput(input) {
   return false;
 }
 
-function removeList() {
-  while (goalListEl.firstChild) goalListEl.firstChild.remove();
+function removeList(listEl) {
+  while (listEl.firstChild) listEl.firstChild.remove();
 }
 
 function removeItem(e) {
@@ -69,54 +79,115 @@ function removeItem(e) {
 }
 
 function renderList() {
-  removeList();
+  removeList(goalListEl);
   goalList.forEach((goal) => {
     const tr = document.createElement('tr');
     const goalTd = document.createElement('td');
     const valueTd = document.createElement('td');
     goalTd.textContent = goal.description;
-    goalTd.addEventListener('click', removeItem);
     valueTd.textContent = `\$${goal.value}`;
+    tr.addEventListener('click', removeItem);
 
     tr.appendChild(goalTd);
     tr.appendChild(valueTd);
     goalListEl.appendChild(tr);
-
-    totalGoalValue = goalList
-      .map((goal) => goal.value)
-      .reduce((acc, val) => parseInt(acc) + parseInt(val), 0);
-    totalGoalValueEl.innerText = `\$${parseInt(totalGoalValue)}`;
   });
+
+  totalGoalValue = goalList
+    .map((goal) => goal.value)
+    .reduce((acc, val) => parseFloat(acc) + parseFloat(val), 0);
+  totalGoalValueEl.innerText = `\$${totalGoalValue}`;
+}
+
+function renderTrackList() {
+  removeList(trackListEl);
+  trackListEl.innerHTML = `<tr>
+      <th>Start Time</th>
+      <th>End Time</th>
+      <th>Elapsed Time (hrs)</th>
+      <th>Earnings</th>
+    </tr>`;
+  trackList.forEach((item) => {
+    const tr = document.createElement('tr');
+    const startTimeTd = document.createElement('td');
+    const endTimeTd = document.createElement('td');
+    const elapsedTimeTd = document.createElement('td');
+    const earningsTd = document.createElement('td');
+    startTimeTd.textContent = `${item.startTime.getHours()}:${item.startTime.getMinutes()}`;
+    endTimeTd.textContent = `${item.endTime.getHours()}:${item.endTime.getMinutes()}`;
+    elapsedTimeTd.textContent = item.elapsedTime;
+    earningsTd.textContent = `\$${item.earnings}`;
+
+    tr.appendChild(startTimeTd);
+    tr.appendChild(endTimeTd);
+    tr.appendChild(elapsedTimeTd);
+    tr.appendChild(earningsTd);
+    trackListEl.appendChild(tr);
+  });
+
+  totalEarnings = trackList
+    .map((item) => item.earnings)
+    .reduce((acc, val) => parseFloat(acc) + parseFloat(val), 0);
+  totalEarningsEl.innerText = totalEarnings;
+  console.log(totalEarnings);
 }
 
 function toggleClock() {
   if (clockRunning) {
     clockRunning = false;
     startBtnEl.classList.remove('clockRunning');
+    startBtnEl.innerText = 'Start';
 
     clearInterval(updateEarningsInterval);
 
     endTime = new Date();
-    elapsedTime = Math.floor(((endTime - startTime) / (1000 * 60)) * 100) / 100;
-    endTimeEl.innerText = endTime;
+    elapsedTime =
+      Math.floor(((endTime - startTime) / (10 * 60 * 60)) * 100) / 100;
+    earnings = Math.floor(elapsedTime * rate * 100) / 100;
+    endTimeEl.innerText = `${endTime.getHours()}:${endTime.getMinutes()}`;
     elapsedTimeEl.innerText = elapsedTime;
+    earningsEl.innerText = earnings;
+
+    trackList.push({
+      startTime,
+      endTime,
+      elapsedTime,
+      earnings
+    });
+    renderTrackList();
+    reset();
   } else {
     clockRunning = true;
     startBtnEl.classList.add('clockRunning');
+    startBtnEl.innerText = 'Stop';
 
     updateEarningsInterval = setInterval(updateElapsedTime, 1000);
 
     startTime = new Date();
-    startTimeEl.innerText = startTime;
+    startTimeEl.innerText = `${startTime.getHours()}:${startTime.getMinutes()}`;
   }
 }
 
 function updateElapsedTime() {
   let currentTime = new Date();
   elapsedTime =
-    Math.floor(((currentTime - startTime) / (1000 * 60)) * 100) / 100;
-  totalEarnings = Math.floor(elapsedTime * rate * 100) / 100;
+    Math.floor(((currentTime - startTime) / (10 * 60 * 60)) * 100) / 100;
+  earnings = Math.floor(elapsedTime * rate * 100) / 100;
 
   elapsedTimeEl.innerText = elapsedTime;
-  totalEarningsEl.innerText = `\$${totalEarnings}`;
+  earningsEl.innerText = earnings;
+}
+
+function reset() {
+  clockRunning = false;
+  startBtnEl.classList.remove('clockRunning');
+  clearInterval(updateEarningsInterval);
+  startTime = null;
+  endTime = null;
+  elapsedTime = 0;
+  earnings = 0;
+  startTimeEl.innerText = '-';
+  endTimeEl.innerText = '-';
+  elapsedTimeEl.innerText = '0';
+  earningsEl.innerText = '0';
 }
