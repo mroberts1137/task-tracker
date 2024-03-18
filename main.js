@@ -13,11 +13,22 @@ addButtonEl.addEventListener('click', (e) => {
 });
 
 const totalGoalValueEl = document.querySelector('#totalGoalValue');
+const startTimeEl = document.querySelector('#startTime');
+const endTimeEl = document.querySelector('#endTime');
+const elapsedTimeEl = document.querySelector('#elapsedTime');
+const totalEarningsEl = document.querySelector('#totalEarnings');
 
 let clockRunning = false;
 
 const goalList = [];
 let totalGoalValue = 0;
+let startTime = null;
+let endTime = null;
+let elapsedTime = null;
+let totalEarnings = 0;
+let rate = 40;
+
+let updateEarningsInterval = null;
 
 function getItem() {
   const goalDescription = document.querySelector('#goal').value;
@@ -82,8 +93,30 @@ function toggleClock() {
   if (clockRunning) {
     clockRunning = false;
     startBtnEl.classList.remove('clockRunning');
+
+    clearInterval(updateEarningsInterval);
+
+    endTime = new Date();
+    elapsedTime = Math.floor(((endTime - startTime) / (1000 * 60)) * 100) / 100;
+    endTimeEl.innerText = endTime;
+    elapsedTimeEl.innerText = elapsedTime;
   } else {
     clockRunning = true;
     startBtnEl.classList.add('clockRunning');
+
+    updateEarningsInterval = setInterval(updateElapsedTime, 1000);
+
+    startTime = new Date();
+    startTimeEl.innerText = startTime;
   }
+}
+
+function updateElapsedTime() {
+  let currentTime = new Date();
+  elapsedTime =
+    Math.floor(((currentTime - startTime) / (1000 * 60)) * 100) / 100;
+  totalEarnings = Math.floor(elapsedTime * rate * 100) / 100;
+
+  elapsedTimeEl.innerText = elapsedTime;
+  totalEarningsEl.innerText = `\$${totalEarnings}`;
 }
