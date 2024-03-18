@@ -1,4 +1,12 @@
-#dataBox {
+#header {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  height: 7rem;
+}
+
+#dataBox,
+#goalList {
   width: 75%;
   margin: auto;
 }
@@ -23,6 +31,10 @@ tr:nth-child(even) {
 #startBtn {
   width: 20rem;
   margin-bottom: 2rem;
+  position: absolute;
+  top: 5rem;
+  left: 0;
+  transform: translate(50%);
   background-color: rgb(52, 99, 227);
   color: white;
   border: 1px solid gray;

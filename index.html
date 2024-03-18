@@ -7,7 +7,10 @@
     <title>Time Tracker</title>
   </head>
   <body>
-    <h1>Time Tracker</h1>
+    <div id="header">
+      <h1>Time Tracker</h1>
+    </div>
+
     <button id="startBtn">Start</button>
 
     <div id="dataBox">
@@ -32,12 +35,16 @@
     </div>
 
     <h1>Goals</h1>
+    <h2>Total goals value: <span id="totalGoalValue">$0</span></h2>
     <form id="goalsForm">
       <label for="goal">Add a goal:</label>
       <input id="goal" type="text" name="goal" />
+      <label for="value">Goal value ($):</label>
+      <input id="value" type="text" name="value" />
       <button id="addButton">Add</button>
     </form>
-    <ul id="goalList"></ul>
+
+    <table id="goalList"></table>
 
     <script src="main.js"></script>
   </body>

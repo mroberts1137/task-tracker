@@ -12,14 +12,22 @@ addButtonEl.addEventListener('click', (e) => {
   console.log(goalList);
 });
 
+const totalGoalValueEl = document.querySelector('#totalGoalValue');
+
 let clockRunning = false;
 
 const goalList = [];
+let totalGoalValue = 0;
 
 function getItem() {
-  const goal = document.querySelector('#goal').value;
+  const goalDescription = document.querySelector('#goal').value;
+  const value = document.querySelector('#value').value;
   document.querySelector('#goalsForm').reset();
-  if (isValidInput(goal) && !goalList.includes(goal)) {
+  if (isValidInput(goalDescription)) {
+    const goal = {
+      description: goalDescription,
+      value: value
+    };
     goalList.push(goal);
   }
   renderList();
@@ -51,11 +59,22 @@ function removeItem(e) {
 
 function renderList() {
   removeList();
-  goalList.forEach((item) => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    li.addEventListener('click', removeItem);
-    goalListEl.appendChild(li);
+  goalList.forEach((goal) => {
+    const tr = document.createElement('tr');
+    const goalTd = document.createElement('td');
+    const valueTd = document.createElement('td');
+    goalTd.textContent = goal.description;
+    goalTd.addEventListener('click', removeItem);
+    valueTd.textContent = `\$${goal.value}`;
+
+    tr.appendChild(goalTd);
+    tr.appendChild(valueTd);
+    goalListEl.appendChild(tr);
+
+    totalGoalValue = goalList
+      .map((goal) => goal.value)
+      .reduce((acc, val) => parseInt(acc) + parseInt(val), 0);
+    totalGoalValueEl.innerText = `\$${parseInt(totalGoalValue)}`;
   });
 }
 
