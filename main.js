@@ -1,3 +1,5 @@
+import goalFile from './goals.json' assert { type: 'json' };
+
 const startBtnEl = document.querySelector('#startBtn');
 startBtnEl.addEventListener('click', () => {
   toggleClock();
@@ -24,7 +26,13 @@ const elapsedTimeEl = document.querySelector('#elapsedTime');
 const earningsEl = document.querySelector('#earnings');
 
 const rateEl = document.querySelector('#rate');
-rateEl.addEventListener('change', (e) => (rate = e.target.value));
+const rateBtnEl = document.querySelector('#rateBtn');
+rateBtnEl.addEventListener('click', (e) => {
+  e.preventDefault();
+  rate = parseFloat(document.querySelector('#rateVal').value);
+  rateEl.innerText = rate;
+  document.querySelector('#rateForm').reset();
+});
 
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
@@ -55,6 +63,13 @@ function getItem() {
     };
     goalList.push(goal);
   }
+  renderList();
+}
+
+function loadGoalsFromJSON(file) {
+  file.forEach((goal) => {
+    goalList.push(goal);
+  });
   renderList();
 }
 
@@ -147,7 +162,7 @@ function toggleClock() {
 
     endTime = new Date();
     elapsedTime =
-      Math.floor(((endTime - startTime) / (10 * 60 * 60)) * 100) / 100;
+      Math.floor(((endTime - startTime) / (1000 * 60 * 60)) * 100) / 100;
     earnings = Math.floor(elapsedTime * rate * 100) / 100;
     endTimeEl.innerText = `${endTime.getHours()}:${endTime.getMinutes()}`;
     elapsedTimeEl.innerText = elapsedTime;
@@ -176,7 +191,7 @@ function toggleClock() {
 function updateElapsedTime() {
   let currentTime = new Date();
   elapsedTime =
-    Math.floor(((currentTime - startTime) / (10 * 60 * 60)) * 100) / 100;
+    Math.floor(((currentTime - startTime) / (1000 * 60 * 60)) * 100) / 100;
   earnings = Math.floor(elapsedTime * rate * 100) / 100;
 
   elapsedTimeEl.innerText = elapsedTime;
@@ -211,3 +226,5 @@ function updateProgress() {
     canvas.height * 0.5
   );
 }
+
+//loadGoalsFromJSON(goalFile);
