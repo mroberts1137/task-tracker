@@ -1,4 +1,4 @@
-import goalFile from './goals.json' assert { type: 'json' };
+import goalFile from './goals.json' with { type: 'json' };
 
 const startBtnEl = document.querySelector('#startBtn');
 startBtnEl.addEventListener('click', () => {
@@ -30,6 +30,7 @@ const rateBtnEl = document.querySelector('#rateBtn');
 rateBtnEl.addEventListener('click', (e) => {
   e.preventDefault();
   rate = parseFloat(document.querySelector('#rateVal').value);
+  rate = !isNaN(rate) && rate > 0 ? rate : 0;
   rateEl.innerText = rate;
   document.querySelector('#rateForm').reset();
 });
@@ -88,11 +89,12 @@ function removeList(listEl) {
 }
 
 function removeItem(e) {
-  const item = e.currentTarget;
-  item.remove();
-  const itemIdx = goalList.indexOf(item.textContent);
-  if (itemIdx >= 0) {
-    goalList.splice(itemIdx, 1);
+  const goal = e.currentTarget.parentElement;
+  const parent = goal.parentElement;
+  const index = Array.prototype.indexOf.call(parent.children, goal);
+  goal.remove();
+  if (index >= 0) {
+    goalList.splice(index, 1);
     renderList();
   }
 }
@@ -103,12 +105,15 @@ function renderList() {
     const tr = document.createElement('tr');
     const goalTd = document.createElement('td');
     const valueTd = document.createElement('td');
+    const removeBtn = document.createElement('button');
     goalTd.textContent = goal.description;
     valueTd.textContent = `\$${goal.value}`;
-    tr.addEventListener('click', removeItem);
+    removeBtn.innerText = 'X';
+    removeBtn.addEventListener('click', removeItem);
 
     tr.appendChild(goalTd);
     tr.appendChild(valueTd);
+    tr.appendChild(removeBtn);
     goalListEl.appendChild(tr);
   });
 
@@ -161,12 +166,7 @@ function toggleClock() {
     clearInterval(updateEarningsInterval);
 
     endTime = new Date();
-    elapsedTime =
-      Math.floor(((endTime - startTime) / (1000 * 60 * 60)) * 100) / 100;
-    earnings = Math.floor(elapsedTime * rate * 100) / 100;
-    endTimeEl.innerText = `${endTime.getHours()}:${endTime.getMinutes()}`;
-    elapsedTimeEl.innerText = elapsedTime;
-    earningsEl.innerText = earnings;
+    updateElapsedTime();
 
     trackList.push({
       startTime,
@@ -196,6 +196,7 @@ function updateElapsedTime() {
 
   elapsedTimeEl.innerText = elapsedTime;
   earningsEl.innerText = earnings;
+  console.log(elapsedTime);
   updateProgress();
 }
 
@@ -218,13 +219,8 @@ function updateProgress() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'green';
   ctx.fillRect(0, 0, parseInt(canvas.width * goalProgress), canvas.height);
-  ctx.font = '25px Arial';
-  ctx.fillStyle = 'black';
-  ctx.fillText(
-    `\%${Math.floor(goalProgress * 1000) / 10}`,
-    canvas.width * 0.5,
-    canvas.height * 0.5
-  );
+  document.querySelector('#progressPercent').innerText =
+    Math.floor(goalProgress * 1000) / 10;
 }
 
-//loadGoalsFromJSON(goalFile);
+loadGoalsFromJSON(goalFile);

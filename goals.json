@@ -1,26 +1,14 @@
 [
   {
-    "description": "Car Loan",
-    "value": "125"
+    "description": "Goal 1",
+    "value": 125
   },
   {
-    "description": "Car Insurance",
-    "value": "85"
+    "description": "Goal 2",
+    "value": 125
   },
   {
-    "description": "Credit Card",
-    "value": "125"
-  },
-  {
-    "description": "Food",
-    "value": "400"
-  },
-  {
-    "description": "Gas",
-    "value": "60"
-  },
-  {
-    "description": "Phone",
-    "value": "35"
+    "description": "Goal 3",
+    "value": 300
   }
 ]
