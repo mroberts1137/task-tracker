@@ -1,14 +1,6 @@
 [
   {
     "description": "Goal 1",
-    "value": 125
-  },
-  {
-    "description": "Goal 2",
-    "value": 125
-  },
-  {
-    "description": "Goal 3",
-    "value": 300
+    "value": 80
   }
 ]

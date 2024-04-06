@@ -196,7 +196,6 @@ function updateElapsedTime() {
 
   elapsedTimeEl.innerText = elapsedTime;
   earningsEl.innerText = earnings;
-  console.log(elapsedTime);
   updateProgress();
 }
 
